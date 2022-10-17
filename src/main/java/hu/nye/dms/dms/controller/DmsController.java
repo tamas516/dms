@@ -37,12 +37,12 @@ public class DmsController {
 //  }
 
 
-  @RequestMapping(path = "/users", method = RequestMethod.GET)
-  public String getUsers(final Model model, @Param("user") String user, @Param("pass") String pass) {
-    final String users = dmsRepo.getUsers(user, pass);
-    model.addAttribute("users", users);
-    return "dms/registration";
-  }
+//  @RequestMapping(path = "/users", method = RequestMethod.GET)
+//  public String getUsers(final Model model, @Param("user") String user, @Param("pass") String pass) {
+//    final String users = dmsRepo.getUsers(user, pass);
+//    model.addAttribute("users", users);
+//    return "dms/registration";
+//  }
 
   @GetMapping("/")
   public String process(Model model, HttpSession session) {

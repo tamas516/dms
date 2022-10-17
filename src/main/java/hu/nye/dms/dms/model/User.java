@@ -1,13 +1,26 @@
 package hu.nye.dms.dms.model;
 
+import hu.nye.dms.dms.repository.DmsRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
  * User model.
  */
+
+
+@Entity
 public class User {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
+
+
   private String username;
+
   private String password;
 
   public User() {
@@ -17,21 +30,30 @@ public class User {
    * User constructor.
    */
 
-  public User(String username, String password) {
+  public User(Integer id, String username, String password) {
+    this.id = id;
     this.username = username;
     this.password = password;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public String getUsername() {
     return username;
   }
 
-  public String getPassword() {
-    return password;
-  }
-
   public void setUsername(String username) {
     this.username = username;
+  }
+
+  public String getPassword() {
+    return password;
   }
 
   public void setPassword(String password) {
@@ -40,29 +62,24 @@ public class User {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof User)) {
-      return false;
-    }
+    if (this == o) return true;
+    if (!(o instanceof User)) return false;
     User user = (User) o;
-    return Objects.equals(username, user.username) && Objects.equals(password, user.password);
+    return id.equals(user.id) && username.equals(user.username) && password.equals(user.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(username, password);
+    return Objects.hash(id, username, password);
   }
 
   @Override
   public String toString() {
-    return "User{"
-            +
-            "username='" + username + '\''
-            +
-            ", password='" + password + '\''
-            +
+    return "User{" +
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
             '}';
   }
+
 }

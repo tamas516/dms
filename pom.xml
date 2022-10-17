@@ -52,6 +52,26 @@
             <version>3.6.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -116,43 +136,43 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>9.3</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <consoleOutput>true</consoleOutput>
-                    <encoding>UTF-8</encoding>
-                    <configLocation>google_checks.xml</configLocation>
-                    <violationSeverity>warning</violationSeverity>
-                    <violationIgnore>
-                        CustomImportOrder,
-                        DesignForExtension,
-                        HiddenField,
-                        HideUtilityClassConstructor,
-                        JavadocPackage,
-                        JavadocVariable,
-                        MissingJavadocMethod,
-                        MissingJavadocType
-                    </violationIgnore>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>check-google-checks</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--                <version>3.1.2</version>-->
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>com.puppycrawl.tools</groupId>-->
+<!--                        <artifactId>checkstyle</artifactId>-->
+<!--                        <version>9.3</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--                <configuration>-->
+<!--                    <consoleOutput>true</consoleOutput>-->
+<!--                    <encoding>UTF-8</encoding>-->
+<!--                    <configLocation>google_checks.xml</configLocation>-->
+<!--                    <violationSeverity>warning</violationSeverity>-->
+<!--                    <violationIgnore>-->
+<!--                        CustomImportOrder,-->
+<!--                        DesignForExtension,-->
+<!--                        HiddenField,-->
+<!--                        HideUtilityClassConstructor,-->
+<!--                        JavadocPackage,-->
+<!--                        JavadocVariable,-->
+<!--                        MissingJavadocMethod,-->
+<!--                        MissingJavadocType-->
+<!--                    </violationIgnore>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>check-google-checks</id>-->
+<!--                        <phase>validate</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
         </plugins>
     </build>

@@ -15,21 +15,21 @@
 <body>
 <div>
 
-    <form th:action="@{/persistMessage}" method="post">
+    <form th:action="@{/sessionCreate}" method="post">
         <input type="text" name="user" />
         <input type="text" name="pass" />
-        <br> <input type="submit" value="Save Message" />
+        <br> <input type="submit" value="Save Username" />
     </form>
 </div>
 <div>
     <h2>Messages</h2>
-    <ul th:each="message : ${sessionMessages}">
-        <li th:text="${message}"></li>
+    <ul th:each="user : ${username}">
+        <li th:text="${user}"></li>
     </ul>
 </div>
 <div>
-    <form th:action="@{/destroy}" method="post">
-        <input type="submit" value="Destroy Session" />
+    <form th:action="@{/sessionDestroy}" method="post">
+        <input type="submit" value="Delete Username" />
     </form>
 </div>
 </body>

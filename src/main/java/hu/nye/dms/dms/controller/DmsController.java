@@ -45,32 +45,32 @@ public class DmsController {
 //  }
 
   @GetMapping("/")
-  public String process(Model model, HttpSession session) {
+  public String processSession(Model model, HttpSession session) {
     @SuppressWarnings("unchecked")
-    List<String> messages = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
+    List<String> users = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
 
-    if (messages == null) {
-      messages = new ArrayList<>();
+    if (users == null) {
+      users = new ArrayList<>();
     }
-    model.addAttribute("sessionMessages", messages);
+    model.addAttribute("username", users);
 
     return "dms/index";
   }
 
-  @PostMapping("/persistMessage")
-  public String persistMessage(final Model model, @Param("user") String user, @Param("pass") String pass, HttpServletRequest request) {
+  @PostMapping("/sessionCreate")
+  public String createSession(final Model model, @Param("user") String user, @Param("pass") String pass, HttpServletRequest request) {
     @SuppressWarnings("unchecked")
-    List<String> messages = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
-    if (messages == null) {
-      messages = new ArrayList<>();
-      request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+    List<String> users = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
+    if (users == null) {
+      users = new ArrayList<>();
+      request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
     }
-    messages.add(dmsRepo.getUsers(user,pass));
-    request.getSession().setAttribute("MY_SESSION_MESSAGES", messages);
+    users.add(dmsRepo.getUsers(user,pass));
+    request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
     return "redirect:/";
   }
 
-  @PostMapping("/destroy")
+  @PostMapping("/sessionDestroy")
   public String destroySession(HttpServletRequest request) {
     request.getSession().invalidate();
     return "redirect:/";

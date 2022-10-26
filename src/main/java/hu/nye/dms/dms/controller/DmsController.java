@@ -65,9 +65,17 @@ public class DmsController {
       users = new ArrayList<>();
       request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
     }
-    users.add(dmsRepo.getUsers(user,pass));
-    request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
-    return "redirect:/";
+    if(dmsRepo.getUsers(user,pass)!=null) {
+      request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
+      users.add(dmsRepo.getUsers(user,pass));
+      model.addAttribute("username", users);
+      return "dms/registration";
+    }
+    else
+    {
+      model.addAttribute("errorMessage", "Hibás adatok!");
+      return "dms/index";
+    }
   }
 
   @PostMapping("/sessionDestroy")

@@ -13,24 +13,28 @@
     <script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="d-flex min-vh-100 align-items-center justify-content-center">
+            <form th:action="@{/sessionCreate}" method="post">
+                <div class="form-outline mb-4 text-center">
+                    <label class="form-label" for="user">Felhasználónév</label>
+                    <input type="text" name="user" id="user" class="form-control"/>
+                </div>
+                <div class="form-outline mb-4 text-center">
+                    <label class="form-label" for="pass">Jelszó</label>
+                    <input type="text" name="pass" id="pass" class="form-control"/>
+                </div>
+                <div class="form-outline mb-4 text-center text-danger" th:if="${errorMessage}" th:text="${errorMessage}">Error</div>
+                <div class="form-outline mb-4 text-center">
+                <button type="submit" class="btn btn-primary btn-block mb-4">Belépés</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div>
 
-    <form th:action="@{/sessionCreate}" method="post">
-        <input type="text" name="user" />
-        <input type="text" name="pass" />
-        <br> <input type="submit" value="Save Username" />
-    </form>
-</div>
-<div>
-    <h2>Messages</h2>
-    <ul th:each="user : ${username}">
-        <li th:text="${user}"></li>
-    </ul>
-</div>
-<div>
-    <form th:action="@{/sessionDestroy}" method="post">
-        <input type="submit" value="Delete Username" />
-    </form>
 </div>
 </body>
 </html>

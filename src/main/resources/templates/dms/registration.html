@@ -14,32 +14,19 @@
 </head>
 <body>
 
-<div class="container">
-
-    <table class="table table-borderless table-sm mt-2">
-        <thead>
-        <tr>
-            <th>Username</th>
-            <th>Password</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user: ${users}">
-            <td th:text="${user[0]}"></td>
-            <td th:text="${user[1]}"></td>
-        </tr>
-        </tbody>
-    </table>
-
+<div>
+    <h2>Messages</h2>
+    <ul th:each="user : ${username}">
+        <li th:text="${user}"></li>
+    </ul>
 </div>
 
 <div>
-    <form th:action="@{/}" method="get">
-        <input type="text" name="user" />
-        <input type="text" name="pass" />
-        <br> <input type="submit" value="Save Message" />
-    </form>
+    <div>
+        <form th:action="@{/sessionDestroy}" method="post">
+            <input type="submit" value="Delete Username" />
+        </form>
+    </div>
 </div>
 
 <script>

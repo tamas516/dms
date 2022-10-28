@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,66 +23,70 @@ import java.util.List;
 @Controller
 public class DmsController {
 
-  @Autowired
-  DmsRepo dmsRepo;
+    @Autowired
+    DmsRepo dmsRepo;
 
-//  @Autowired
-//  private UserService userService;
-//
-//  @RequestMapping(path = "/list", method = RequestMethod.GET)
-//  public String getAllUser(final Model model)
-//  {
-//    final List<User> users = userService.getAllUsers();
-//    model.addAttribute("users", users);
-//    return "dms/registration";
-//  }
+    @GetMapping("/")
+    public String index(Model model, HttpSession session) {
+        @SuppressWarnings("unchecked")
+        List<String> users = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
 
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+        model.addAttribute("username", users);
 
-//  @RequestMapping(path = "/users", method = RequestMethod.GET)
-//  public String getUsers(final Model model, @Param("user") String user, @Param("pass") String pass) {
-//    final String users = dmsRepo.getUsers(user, pass);
-//    model.addAttribute("users", users);
-//    return "dms/registration";
-//  }
-
-  @GetMapping("/")
-  public String processSession(Model model, HttpSession session) {
-    @SuppressWarnings("unchecked")
-    List<String> users = (List<String>) session.getAttribute("MY_SESSION_MESSAGES");
-
-    if (users == null) {
-      users = new ArrayList<>();
+        return "dms/index";
     }
-    model.addAttribute("username", users);
 
-    return "dms/index";
-  }
+    @RequestMapping(value = "/sessionCreate", method = RequestMethod.POST, params = "action=registration")
+    public String registrationLink() {
+        return "dms/registration";
+    }
 
-  @PostMapping("/sessionCreate")
-  public String createSession(final Model model, @Param("user") String user, @Param("pass") String pass, HttpServletRequest request) {
-    @SuppressWarnings("unchecked")
-    List<String> users = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
-    if (users == null) {
-      users = new ArrayList<>();
-      request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
-    }
-    if(dmsRepo.getUsers(user,pass)!=null) {
-      request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
-      users.add(dmsRepo.getUsers(user,pass));
-      model.addAttribute("username", users);
-      return "dms/registration";
-    }
-    else
-    {
-      model.addAttribute("errorMessage", "Hibás adatok!");
-      return "dms/index";
-    }
-  }
+    @RequestMapping(value = "/sessionCreate", method = RequestMethod.POST, params = "action=login")
+    public String createSession(final Model model, @Param("user") String user, @Param("pass") String pass, HttpServletRequest request) {
+        @SuppressWarnings("unchecked")
+        List<String> users = (List<String>) request.getSession().getAttribute("MY_SESSION_MESSAGES");
+        if (users == null) {
+            users = new ArrayList<>();
+            request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
+        }
+        if (dmsRepo.getUsers(user, pass) != null) {
+            request.getSession().setAttribute("MY_SESSION_MESSAGES", users);
+            users.add(dmsRepo.getUsers(user, pass));
+            model.addAttribute("username", users);
+            return "dms/logged";
+        } else if (ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(pass)) {
+            model.addAttribute("errorMessage", "Hiányzó adatok!");
+            return "dms/index";
+        } else {
+            model.addAttribute("errorMessage", "Hibás adatok!");
+            return "dms/index";
+        }
 
-  @PostMapping("/sessionDestroy")
-  public String destroySession(HttpServletRequest request) {
-    request.getSession().invalidate();
-    return "redirect:/";
-  }
+    }
+
+    @PostMapping("/sessionDestroy")
+    public String destroySession(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/";
+    }
+
+    @PostMapping("/reg")
+    public String registration(final Model model, @Param("user") String user, @Param("pass") String pass) {
+
+        if (ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(pass)) {
+            model.addAttribute("errorMessage", "Hiányzó adatok!");
+            return "dms/registration";
+        } else if (dmsRepo.getRegUser(user) == null) {
+            dmsRepo.insertUser(user, pass);
+            return "dms/index";
+        } else {
+            model.addAttribute("errorMessage", "Hibás adatok!");
+            return "dms/registration";
+        }
+
+    }
 
 }

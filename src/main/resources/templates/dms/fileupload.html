@@ -19,18 +19,6 @@
         <li th:text="${user}"></li>
     </ul>
 </div>
-<a th:href="@{fileup}">
-<div class="container">
-    <div class="row">
-        <div class="d-flex min-vh-100 align-items-center justify-content-center">
-            <form th:action="@{/sessionDestroy}" method="post">
-                <div class="form-outline mb-4 text-center">
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Kilépés</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="form-outline mb-4 text-center">
     <h2>Fájlok feltöltése</h2>
     <form id="uploadFile" name="uploadFile" method="post" th:action="@{/uploadFile}"

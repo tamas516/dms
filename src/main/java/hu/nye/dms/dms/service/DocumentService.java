@@ -4,25 +4,30 @@ import hu.nye.dms.dms.model.Document;
 import hu.nye.dms.dms.repository.DocumentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
-public class DocumentService {
+public class DocumentService implements DocService{
 
-    @Autowired
-    private DocumentRepo documentRepo;
+  @Autowired
+  DocumentRepo documentRepo;
 
-    public Document saveFile(MultipartFile multipartFile)
-    {
-        String fileName = multipartFile.getOriginalFilename();
-        try {
-            Document document = new Document(fileName, multipartFile.getContentType(), multipartFile.getBytes());
-            return documentRepo.save(document);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return  null;
-    }
+  @Override
+  public List<Document> getAllFiles(int userId) {
+    return documentRepo.findAll(userId);
+  }
+
+  @Override
+  public int getUserId(String username) {
+    return documentRepo.getUserId(username);
+  }
+
+  @Override
+  public void saveAllFilesList(List<Document> fileList) {
+    for (Document document : fileList)
+      documentRepo.save(document);
+  }
+
+
 }

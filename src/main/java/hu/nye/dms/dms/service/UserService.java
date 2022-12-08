@@ -1,24 +1,9 @@
 package hu.nye.dms.dms.service;
 
-import hu.nye.dms.dms.model.User;
-import hu.nye.dms.dms.repository.DmsRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+public interface UserService {
 
-import java.util.ArrayList;
-import java.util.List;
+  String getUsername(String username, String password);
 
-@Service
-public class UserService {
-
-  @Autowired
-  DmsRepo dmsRepo;
-
-//  public List<User> getAllUsers()
-//  {
-//    List<User>users = new ArrayList<>();
-//    dmsRepo.findAll().forEach(users::add);
-//    return users;
-//  }
+  String getRegUsername(String username);
 
 }

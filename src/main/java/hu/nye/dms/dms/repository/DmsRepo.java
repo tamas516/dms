@@ -11,14 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface DmsRepo extends JpaRepository<User,Integer> {
 
-  @Query(value = "SELECT username FROM users WHERE username=?1 AND password=?2", nativeQuery = true)
-  public String getUsers(String username, String password);
+  @Query("SELECT u.username FROM User u WHERE u.username=?1 AND u.password=?2")
+  String getUsers(String username, String password);
 
-  @Query(value = "SELECT username FROM users WHERE username=?1", nativeQuery = true)
-  public String getRegUser(String username);
+  @Query("SELECT u.username FROM User u WHERE u.username=?1")
+  String getRegUser(String username);
+
+  @Query(value = "SELECT ATTRIBUTE_NAME FROM spring_session_attributes", nativeQuery = true)
+  String getSessionUser();
 
   @Modifying
   @Transactional
-  @Query(value = "INSERT INTO users (username,password) VALUES (?1,?2)", nativeQuery = true)
-  public void insertUser(String username, String password);
+  @Query(value = "DELETE FROM spring_session_attributes WHERE ATTRIBUTE_NAME!=?1", nativeQuery = true)
+  void deleteSessionUser(String user);
+
 }

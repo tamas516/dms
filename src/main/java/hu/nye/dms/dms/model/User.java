@@ -1,8 +1,5 @@
 package hu.nye.dms.dms.model;
 
-import hu.nye.dms.dms.repository.DmsRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,18 +9,29 @@ import java.util.Objects;
 
 
 @Entity
+@Table(name = "users")
 public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Integer id;
 
-
+  @Column(name = "username")
   private String username;
 
+  @Column(name = "password")
   private String password;
 
+  @OneToOne
+  @PrimaryKeyJoinColumn(name = "id")
+  Document document;
+
+  @OneToOne(mappedBy = "user")
+  Session session;
+
   public User() {
+
   }
 
   /**

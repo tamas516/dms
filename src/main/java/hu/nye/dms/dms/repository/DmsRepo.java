@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface DmsRepo extends JpaRepository<User,Integer> {
 
-  @Query("SELECT u.username FROM User u WHERE u.username=?1 AND u.password=?2")
-  String getUsers(String username, String password);
+  @Query("SELECT u.password FROM User u WHERE u.username=?1")
+  String getPassword(String username);
 
   @Query("SELECT u.username FROM User u WHERE u.username=?1")
   String getRegUser(String username);

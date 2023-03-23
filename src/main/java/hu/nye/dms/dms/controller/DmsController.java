@@ -4,8 +4,11 @@ import hu.nye.dms.dms.model.Document;
 import hu.nye.dms.dms.model.User;
 import hu.nye.dms.dms.repository.DmsRepo;
 import hu.nye.dms.dms.repository.DocumentRepo;
+import hu.nye.dms.dms.service.DocServiceImpl;
+import hu.nye.dms.dms.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -24,7 +27,10 @@ public class DmsController {
     DmsRepo dmsRepo;
 
     @Autowired
-    DocumentRepo documentRepo;
+    UserServiceImpl userService;
+
+    @Autowired
+    DocServiceImpl docService;
 
     @GetMapping("/")
     public String index(HttpServletRequest request) {
@@ -48,14 +54,14 @@ public class DmsController {
     @RequestMapping(value = "/fileShow", method = RequestMethod.POST, params = "action=allFiles")
     public String allFilesLink(final Model model) {
 
-        String user = dmsRepo.getSessionUser();
-        int userId = documentRepo.getUserId(user);
+        String user = userService.getSessionUsername();
+        int userId = docService.getUserId(user);
 
-        List<Document> listDocs = documentRepo.findAll(userId);
+        List<Document> listDocs = docService.getAllFiles(userId);
 
         model.addAttribute("allFiles", listDocs);
 
-        model.addAttribute("username", dmsRepo.getSessionUser());
+        model.addAttribute("username", userService.getSessionUsername());
 
         return "dms/logged";
     }
@@ -65,16 +71,20 @@ public class DmsController {
 
         request.getSession().setMaxInactiveInterval(60*60);
 
-         if (dmsRepo.getUsers(user, pass) != null) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+
+        User user1 = new User();
+
+        if (bCryptPasswordEncoder.matches(pass,userService.getPassword(user))) {
             request.getSession().setAttribute(user,user);
-            User user1 = new User();
+
             user1.setUsername(user);
-            user1.setPassword(pass);
+            userService.deleteSessionUser(user1.getUsername());
 
-            dmsRepo.deleteSessionUser(user1.getUsername());
-
-             model.addAttribute("username", user1.getUsername());
+            model.addAttribute("username", user1.getUsername());
             return "dms/logged";
+
         } else if (ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(pass)) {
             model.addAttribute("errorMessage", "Hiányzó adatok!");
             return "dms/index";
@@ -97,12 +107,13 @@ public class DmsController {
         if (ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(pass)) {
             model.addAttribute("errorMessage", "Hiányzó adatok!");
             return "dms/registration";
-        } else if (dmsRepo.getRegUser(user) == null) {
+        } else if (userService.getRegUsername(user) == null) {
             User user1 = new User();
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String encryptedPwd = bCryptPasswordEncoder.encode(pass);
             user1.setUsername(user);
-            user1.setPassword(pass);
+            user1.setPassword(encryptedPwd);
             dmsRepo.save(user1);
-
 
             return "dms/index";
         } else {

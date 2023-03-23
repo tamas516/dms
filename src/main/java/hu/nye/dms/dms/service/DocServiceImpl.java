@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DocumentService implements DocService{
+public class DocServiceImpl implements DocService{
 
   @Autowired
   DocumentRepo documentRepo;

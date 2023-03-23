@@ -2,8 +2,12 @@ package hu.nye.dms.dms.service;
 
 public interface UserService {
 
-  String getUsername(String username, String password);
+  String getSessionUsername();
 
   String getRegUsername(String username);
+
+  String getPassword(String username);
+
+  void deleteSessionUser(String username);
 
 }

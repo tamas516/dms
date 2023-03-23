@@ -14,13 +14,25 @@ public class UserServiceImpl implements UserService{
   User user = new User();
 
   @Override
-  public String getUsername(String username, String password) {
-    return dmsRepo.getUsers(user.getUsername(),user.getPassword());
+  public String getSessionUsername() {
+    return dmsRepo.getSessionUser();
   }
 
   @Override
   public String getRegUsername(String username) {
+    user.setUsername(username);
     return dmsRepo.getRegUser(user.getUsername());
   }
 
+  @Override
+  public String getPassword(String username) {
+    user.setUsername(username);
+    return dmsRepo.getPassword(user.getUsername());
+  }
+
+  @Override
+  public void deleteSessionUser(String username) {
+    user.setUsername(username);
+    dmsRepo.deleteSessionUser(user.getUsername());
+  }
 }

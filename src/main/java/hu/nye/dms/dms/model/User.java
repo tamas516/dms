@@ -1,13 +1,19 @@
 package hu.nye.dms.dms.model;
 
-import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
 
 /**
- * User model.
+ * User entity class.
  */
-
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,6 +28,9 @@ public class User {
 
   @Column(name = "password")
   private String password;
+
+  @Column(name = "neptun_code")
+  private String neptuncode;
 
   @OneToOne
   @PrimaryKeyJoinColumn(name = "id")
@@ -38,10 +47,11 @@ public class User {
    * User constructor.
    */
 
-  public User(Integer id, String username, String password) {
+  public User(Integer id, String username, String password, String neptuncode) {
     this.id = id;
     this.username = username;
     this.password = password;
+    this.neptuncode = neptuncode;
   }
 
   public Integer getId() {
@@ -68,26 +78,41 @@ public class User {
     this.password = password;
   }
 
+  public String getNeptuncode() {
+    return neptuncode;
+  }
+
+  public void setNeptuncode(String neptuncode) {
+    this.neptuncode = neptuncode;
+  }
+
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof User)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof User)) {
+      return false;
+    }
     User user = (User) o;
-    return id.equals(user.id) && username.equals(user.username) && password.equals(user.password);
+    return id.equals(user.id) && username.equals(user.username)
+        && password.equals(user.password)
+        && neptuncode.equals(user.neptuncode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, password);
+    return Objects.hash(id, username, password, neptuncode);
   }
 
   @Override
   public String toString() {
-    return "User{" +
-            "id=" + id +
-            ", username='" + username + '\'' +
-            ", password='" + password + '\'' +
-            '}';
+    return "User{"
+        + "id=" + id
+        + ", username='" + username + '\''
+        + ", password='" + password + '\''
+        + ", neptun_code='" + neptuncode + '\''
+        + '}';
   }
 
 }

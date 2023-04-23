@@ -1,38 +1,53 @@
 package hu.nye.dms.dms.service;
 
+import java.util.List;
+
 import hu.nye.dms.dms.model.User;
-import hu.nye.dms.dms.repository.DmsRepo;
+import hu.nye.dms.dms.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * UserService Implementation class.
+ */
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
   @Autowired
-  DmsRepo dmsRepo;
+  UserRepo userRepo;
 
   User user = new User();
 
   @Override
   public String getSessionUsername() {
-    return dmsRepo.getSessionUser();
+    return userRepo.getSessionUser();
+  }
+
+  @Override
+  public String getNeptunCode(String username) {
+    return userRepo.getNeptunCode(username);
+  }
+
+  @Override
+  public List<String> getAllNeptunCode() {
+    return userRepo.getAllNeptunCode();
   }
 
   @Override
   public String getRegUsername(String username) {
     user.setUsername(username);
-    return dmsRepo.getRegUser(user.getUsername());
+    return userRepo.getRegUser(user.getUsername());
   }
 
   @Override
   public String getPassword(String username) {
     user.setUsername(username);
-    return dmsRepo.getPassword(user.getUsername());
+    return userRepo.getPassword(user.getUsername());
   }
 
   @Override
   public void deleteSessionUser(String username) {
     user.setUsername(username);
-    dmsRepo.deleteSessionUser(user.getUsername());
+    userRepo.deleteSessionUser(user.getUsername());
   }
 }

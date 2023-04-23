@@ -1,9 +1,19 @@
 package hu.nye.dms.dms.model;
 
-import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
+/**
+ * Session entity class.
+ */
 @Entity
 @Table(name = "spring_session_attributes")
 public class Session {
@@ -26,6 +36,9 @@ public class Session {
   public Session() {
   }
 
+  /**
+   * Session Constructor.
+   */
   public Session(String sessionId, String sessionUsername, byte[] sessionData) {
     this.sessionId = sessionId;
     this.sessionUsername = sessionUsername;
@@ -58,10 +71,17 @@ public class Session {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof Session)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Session)) {
+      return false;
+    }
     Session session = (Session) o;
-    return Objects.equals(sessionId, session.sessionId) && Objects.equals(sessionUsername, session.sessionUsername) && Arrays.equals(sessionData, session.sessionData) && Objects.equals(user, session.user);
+    return Objects.equals(sessionId, session.sessionId)
+        && Objects.equals(sessionUsername, session.sessionUsername)
+        && Arrays.equals(sessionData, session.sessionData)
+        && Objects.equals(user, session.user);
   }
 
   @Override
@@ -73,11 +93,11 @@ public class Session {
 
   @Override
   public String toString() {
-    return "Session{" +
-            "sessionId='" + sessionId + '\'' +
-            ", sessionUsername='" + sessionUsername + '\'' +
-            ", sessionData=" + Arrays.toString(sessionData) +
-            ", user=" + user +
-            '}';
+    return "Session{"
+        + "sessionId='" + sessionId + '\''
+        + ", sessionUsername='" + sessionUsername + '\''
+        + ", sessionData=" + Arrays.toString(sessionData)
+        + ", user=" + user
+        + '}';
   }
 }

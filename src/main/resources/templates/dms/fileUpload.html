@@ -30,10 +30,16 @@
                 </li>
             </ul>
         </div>
-        <span class="text-white">Üdv!</span>
-        <span class="text-white" th:text="${username}"></span>
+        <form th:action="@{/search}" method="post">
+            <div class="d-flex">
+                <input type="text" name="search" id="search" class="form-control me-3" placeholder="Keresés">
+                <button class="btn btn-primary me-3" type="submit">Keresés</button>
+            </div>
+        </form>
+        <span class="text-white me-1">Üdv!</span>
+        <span class="text-white me-3" th:text="${username}"></span>
         <form th:action="@{/sessionDestroy}" method="post">
-            <button type="submit" class="btn btn-primary">Kilépés</button>
+            <button type="submit" class="btn btn-primary me-3">Kilépés</button>
         </form>
     </div>
 </nav>
@@ -77,14 +83,15 @@
                         <input type="text" name="ora" id="ora" class="form-control"/>
                     </div>
                     <div>
-                        <h3 class="text-secondary">Maximális fájlméret 1 MB!</h3>
+                        <h6 class="text-secondary">Maximális fájlméret 1 MB!</h6>
                     </div>
                     <div class="form-outline mb-4 text-center text-danger" th:if="${errorMessage}" th:text="${errorMessage}">Error</div>
-                    <input type="file" name="document" multiple required />
+                    <div class="file-upload-wrapper">
+                        <input type="file" name="document" class="me-3" multiple required />
+                    </div>
                     <button type="submit" class="btn btn-primary btn-block mb-4">Feltöltés</button>
                 </form>
             </div>
-
         </div>
     </div>
 </div>

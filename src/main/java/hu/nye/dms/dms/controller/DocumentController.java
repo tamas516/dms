@@ -59,6 +59,7 @@ public class DocumentController {
     List<Document> listDocs = documentRepo.findAll(userId);
 
     model.addAttribute("allFiles", listDocs);
+    model.addAttribute("username", user);
 
     return "dms/logged";
   }
@@ -149,6 +150,22 @@ public class DocumentController {
     ServletOutputStream outputStream = response.getOutputStream();
     outputStream.write(document.getData());
     outputStream.close();
+
+  }
+
+  /**
+   * Search method.
+   */
+  @RequestMapping("/search")
+  public String searchFile(Model model, @RequestParam("search") String search) {
+
+    String user = userRepo.getSessionUser();
+    int userId = documentRepo.getUserId(user);
+
+    List<Document> searcResult = documentRepo.search(userId, search);
+    model.addAttribute("searchResult", searcResult);
+    model.addAttribute("username", user);
+    return "dms/searchResult";
 
   }
 

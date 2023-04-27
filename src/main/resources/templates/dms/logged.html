@@ -29,14 +29,22 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="fileUpload">Fájlok feltöltése</a>
+                    <a class="nav-link" th:href="@{'fileUpload'}">Fájlok feltöltése</a>
                 </li>
             </ul>
         </div>
-            <span class="text-white">Üdv!</span>
-            <span class="text-white" th:text="${username}"></span>
+
+        <form th:action="@{/search}" method="post">
+        <div class="d-flex">
+            <input type="text" name="search" id="search" class="form-control me-3" placeholder="Keresés">
+                <button class="btn btn-primary me-3" type="submit">Keresés</button>
+        </div>
+        </form>
+
+            <span class="text-white me-1">Üdv!</span>
+            <span class="text-white me-3" th:text="${username}"></span>
         <form th:action="@{/sessionDestroy}" method="post">
-                <button type="submit" class="btn btn-primary">Kilépés</button>
+                <button type="submit" class="btn btn-primary me-3">Kilépés</button>
         </form>
     </div>
 </nav>

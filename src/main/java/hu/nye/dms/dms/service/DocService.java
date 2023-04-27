@@ -11,6 +11,8 @@ public interface DocService {
 
   List<Document> getAllFiles(int userId);
 
+  List<Document> search(int userId, String filename);
+
   void saveAllFilesList(List<Document> fileList);
 
   int getUserId(String username);

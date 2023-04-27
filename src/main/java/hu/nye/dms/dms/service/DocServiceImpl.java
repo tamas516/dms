@@ -22,6 +22,11 @@ public class DocServiceImpl implements DocService {
   }
 
   @Override
+  public List<Document> search(int userId, String filename) {
+    return documentRepo.search(userId, filename);
+  }
+
+  @Override
   public int getUserId(String username) {
     return documentRepo.getUserId(username);
   }
